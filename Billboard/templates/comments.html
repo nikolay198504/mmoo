@@ -1,0 +1,35 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    Comment
+{% endblock title %}
+
+{% block content %}
+    <div style="display: flex; gap: 1rem;">
+        <div style="width: 100%;">
+            <h4><a class="nav-link" href="/bill/{{ bill.pk }}">
+                {{ bill.title }}
+            </a></h4>
+            <div><b>{{ bill.bill_time|date:'d M Y' }}</b></div>
+            <div>Автор: {{ bill.author.username }}</div>
+            <br>
+            <a style="text-decoration: none;"
+               href="{% url 'bill_cat_list' bill.category.id %}">
+                <span class="badge text-bg-secondary">{{ bill.category }}</span>
+            </a>
+        </div>
+    </div>
+<div style="width: 100%;">
+    {{ bill.text|safe }}
+</div>
+    <h3 class="text-center">
+    </h3>
+    <br>
+
+    <form class="text-center" action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-lg btn-light btn-outline-info" type="submit" value="Отправить">
+    </form>
+
+{% endblock content %}

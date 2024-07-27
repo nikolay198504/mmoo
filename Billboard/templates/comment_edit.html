@@ -1,0 +1,35 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    Comment
+{% endblock title %}
+
+{% block content %}
+    <div style="display: flex; gap: 1rem;">
+        <div style="width: 100%;">
+            <h4><a class="nav-link" href="/bill/{{ bill.pk }}">
+                {{ bill.title }}
+            </a></h4>
+            <div><b>{{ bill.bill_time|date:'d M Y' }}</b></div>
+            <div>Автор: {{ bill.author.username }}</div>
+            <br>
+            <a style="text-decoration: none;"
+               href="{% url 'bill_cat_list' bill.category.id %}">
+                <span class="badge text-bg-secondary">{{ bill.category }}</span>
+            </a>
+        </div>
+    </div>
+<div style="width: 100%;">
+    {{ bill.text|safe }}
+</div>
+    <h3 class="text-center">
+    </h3>
+ <br>
+    <h3>Текст отклика:</h3><br>
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{% bootstrap_form form layout='horizontal' %}
+		<input class="btn btn-secondary" type="submit" value="Сохранить">
+	</form><br>
+    <input type=button value="Назад" class="btn btn-secondary" onClick="javascript:history.go(-1);">
+{% endblock content %}

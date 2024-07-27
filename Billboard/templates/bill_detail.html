@@ -1,0 +1,42 @@
+{% extends 'default.html' %}
+
+{% block title %}Bill{% endblock title %}
+
+{% block content %}
+<br><br>
+{% autoescape off %}
+<h2>{{ bill.title }}</h2><br>
+<span>{{ bill.text }}<br></span>
+{% endautoescape %}
+
+<table>
+    <tr>
+        <td>Автор</td>
+        <td>| Дата публикации</td>
+    </tr>
+    <tr>
+        <td>{{ bill.author }}</td>
+        <td>{{ bill.bill_time|date:'d-M-Y f' }}</td>
+    </tr>
+
+    <br><br>
+
+    <a class="btn btn-secondary" href="{% url 'bill_list' %}" role="button">Закрыть</a>
+    <a class="btn btn-secondary" href="/bill/{{ bill.id }}/update" role="button">Редактировать</a>
+    <a class="btn btn-secondary" href="/bill/{{ bill.id }}/delete" role="button">Удалить</a>
+
+    {% if user.is_authenticated %}
+    <br><br>
+        {% if respond == "Откликнулся" %}
+            <a style="color:red">Вы откликнулись на это объявление.</a><br>
+            <a href="{% url 'mycomments' %}">Посмотреть свои отклики</a>
+        {% elif respond == "Мое объявление" %}
+            <a style="color:red">Автор не может оставить отклик на свое объявление.</a><br>
+        {% else %}
+            <a class="btn btn-secondary" href="/respond/{{ bill.id }}" role="button">Откликнуться</a>
+        {% endif %}
+    {% endif %}
+<br><br>
+
+</table>
+{% endblock content %}

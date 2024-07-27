@@ -1,0 +1,21 @@
+
+{% extends 'default.html' %}
+
+{% block content %}
+<h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+<div> Здесь может содержаться персональная информация для каждого пользователя </div>
+<hr>
+<form action="" method="get">
+    {{ filterset.form }}
+    <input type="submit" value="Найти">
+</form>
+<button> <a href="/">Сбросить фильтр</a> </button>
+<hr>
+<h4>Все отклики на выбранное объявление:</h4>
+{% if filterset.qs %}
+{% for comment in filterset.qs %}
+<p>{{ comment.text_comment }}</p>
+{% endfor %}
+{% endif %}
+<button> <a href="sign/logout/">Выйти</a> </button>
+{% endblock %}

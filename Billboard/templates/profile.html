@@ -1,0 +1,22 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+{% block content %}
+<br><br>
+    <h3>Ваш профиль: </h3>
+    <br>
+    <h5>User name: {{user.username}}</h5>
+    <h5>Last name: {{user.last_name}}</h5>
+    <h5>First name: {{user.first_name}}</h5>
+    <h5>E-mail: {{user.email}}</h5>
+
+    <br><br>
+    <hr>
+    <div class="text-center" >
+        <button class="btn btn-lg btn-secondary"><a style="text-decoration: none; color: white" href="{% url 'bill_create' %}">Добавить объявление</a></button>
+        <button class="btn btn-lg btn-secondary"><a style="text-decoration: none; color: white" href="{% url 'confirm_user' %}">Выйти</a></button>
+    </div>
+{% endblock content %}

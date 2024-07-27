@@ -1,0 +1,63 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    My comments
+{% endblock title %}
+
+{% block content %}
+    <h2>Поиск откликов по объявлениям</h2>
+    <br>
+    <form action="" method="get">
+        <h5>{{ filterset.form.as_p }}</h5>
+        <input class="btn btn-secondary" type="submit" value="Найти" />
+    </form>
+    <br><br>
+    {% if mycomments %}
+        {% for comment in mycomments %}
+
+            <h4><a class="nav-link" href="/bill/{{ comment.comment_bill.id }}">
+                Объявление: {{ comment.comment_bill.title}}</a></h4>
+            <br>
+            <h5>Отклик: {{ comment.text_comment }}</h5>
+            <table width="100%">
+                <tr>
+                    <td width="200"><div>{{ comment.date_in|date:'d M Y' }}</div>
+                        <div>Автор: {{ comment.author|truncatechars:20 }}</div>
+                    </td>
+                    <td align="left">
+                        {% if comment.comment %}
+                        <p>Отклик принят</p>
+                        {% else %}
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <a style="text-decoration: none" href="{% url 'accept_comment' comment.id %}">
+                                <input class="btn btn-sm btn-light btn-outline-info"
+                                       type="button" value="Принять" />
+                            </a>
+                            <a style="text-decoration: none" href="/mycomments/{{ comment.id }}/delete">
+                                <input id="deleteButton" class="btn btn-sm btn-light btn-outline-info"
+                                       type="button" value="Удалить" />
+                            </a>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+
+        <br><br><br>
+        {% endfor %}
+    {% else %}
+        <h4>Извините, откликов сейчас нет!</h4>
+    {% endif %}
+
+<script>
+/*   const deleteBtn = document.getElementById('deleteButton')
+
+    const deleteHandler = () => {
+        confirm('Вы действительно хотите удалить этот отклик?')
+    }
+
+    document.addEventListener('click', deleteHandler)
+*/
+</script>
+{% endblock content %}

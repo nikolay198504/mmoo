@@ -1,0 +1,44 @@
+
+{% extends 'default.html' %}
+
+
+{% block content %}
+
+    {% if is_not_subscriber %}
+        <p class="text-center"><a href="{% url 'subscribe' category.id %}" class="btn btn-secondary btn-sm">Оставить отклик</a> </p>
+    {% endif %}
+
+    <hr>
+    <form action="" method="get">
+    {{ filterset.form.as_p }}
+        <input type="submit" value="Найти">
+    </form>
+
+
+{% if bill_cat_list %}
+
+<table width="100%" style="margin-top:35px">
+    <tr>
+        <td><u>Категория</u></td>
+        <td><u>Заголовок</u></td>
+        <td><u>Содержание</u></td>
+        <td><u>Дата публикации</u></td>
+    </tr>
+    {% for bill in bill_cat_list %}
+    <tr>
+        <td>
+            {% for category in bill.category.all %}
+                <a href="{% url 'bill_cat_list' category.id %}">{{ category }}</a>
+            {% endfor %}
+        </td>
+        <td>{{ bill.title }}</td>
+        <td>{{ bill.text|truncatewords:10|safe }}</td>
+        <td>{{ bill.bill_time|date:'d M Y' }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<h3>Объявлений нет!</h3>
+{% endif %}
+
+{% endblock content %}
